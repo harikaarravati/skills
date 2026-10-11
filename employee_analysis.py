@@ -1,44 +1,35 @@
-#Simple ATM Simulator
-balance = 5000
-correct_pin = "1234"
-def check_balance():
-    print("Current balance:", balance)
-def deposit():
-    amount = float(input("Enter amount to deposit: "))
-    global balance
-    balance += amount
-    print("Amount deposited:", amount)
-    print("New Balance:", balance)
-def withdraw():
-    amount = float(input("Enter amount to withdraw: "))
-    global balance
-    if amount > balance:
-        print("Insufficient balance")
-    else:
-        balance -= amount
-        print("Amount withdrawn:", amount)
-        print("Remaining Balance:", balance)
+import pandas as pd
 
-pin = input("Enter your PIN: ")
-if pin == correct_pin:
-    print("Login successful")
-    while True:
-        print("\nATM Menu:")
-        print("1. Check Balance")
-        print("2. Deposit")
-        print("3. Withdraw")
-        print("4. Exit")
-        choice = input("Enter your choice (1-4): ")
-        if choice == "1":
-            check_balance()
-        elif choice == "2":
-            deposit()
-        elif choice == "3":
-            withdraw()
-        elif choice == "4":
-            print("Thank you for using the ATM. Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please try again.")
-else:
-    print("Incorrect PIN")
+# Load CSV file
+df = pd.read_csv("employee_data.csv")
+
+print("----- EMPLOYEE DATA -----")
+print(df)
+
+
+# Calculate average salary
+average_salary = df["Salary"].mean()
+
+print("\nAverage Salary:", average_salary)
+
+
+# Count employees by department
+department_count = df["Department"].value_counts()
+
+print("\n----- EMPLOYEES BY DEPARTMENT -----")
+print(department_count)
+
+
+# Filter employees above salary threshold
+salary_threshold = 60000
+
+high_salary = df[df["Salary"] > salary_threshold]
+
+print("\n----- EMPLOYEES ABOVE", salary_threshold, "-----")
+print(high_salary)
+
+
+# Export filtered results to a new CSV
+high_salary.to_csv("high_salary_employees.csv", index=False)
+
+print("\nFiltered employee data saved successfully!")
